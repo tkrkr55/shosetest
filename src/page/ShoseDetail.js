@@ -1,7 +1,12 @@
 import React,{useEffect,useState} from 'react'
 import { useParams } from 'react-router-dom';
 import {Nav} from 'react-bootstrap'
+import {useDispatch} from 'react-redux/es/exports'
+import { addItem } from '../redux/store';
+import { useNavigate } from 'react-router-dom';
 export default function ShoseDetail({shoes}) {
+  let navigate = useNavigate()
+  let dispatch = useDispatch()
   let [count, setCount] = useState(true)
   let [fade,setfade] = useState('')
   let [fade2,setfade2] = useState('')
@@ -31,6 +36,7 @@ export default function ShoseDetail({shoes}) {
   let 찾은상품 = shoes.find((x)=>{
     return x.id == id
   })
+  console.log(찾은상품)
 
 
   return (
@@ -48,7 +54,12 @@ export default function ShoseDetail({shoes}) {
       <h4 className="pt-5">{찾은상품.title}</h4>
       <p>상품설명 : {찾은상품.content}</p>
       <p>{찾은상품.price}원 </p>
-      <button className="btn btn-danger">주문하기</button> 
+      <button 
+      onClick={()=>{
+        dispatch(addItem({id : 찾은상품.id, name: 찾은상품.title , count: 1}))
+        navigate('/cart')
+      }}
+      className="btn btn-danger">주문하기</button> 
     </div>
   </div>
     </div> 

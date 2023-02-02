@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { act } from "@testing-library/react";
 
 let user = createSlice({
   name :'user',
@@ -15,12 +16,31 @@ let user = createSlice({
 let cart = createSlice({
   name:'cart',
   initialState :[
-    {id : 0, name : 'White and Black', count : 2},
-    {id : 2, name : 'Grey Yordan', count : 1}
-  ]
+
+  ],
+  reducers :  {
+    changeCount(state,action){
+     let 번호 = state.findIndex((a)=>{return a.id === action.payload })
+      state[번호].count++
+    },
+    addItem(state,action){
+      let 번호 = state.findIndex((a)=>{return a.id === action.payload.id})
+      console.log(번호)
+    
+    if( 번호 >= 0 ){
+
+       state[번호].count++
+    }else{
+      state.push(action.payload)
+    }
+    }
+  },
+ 
+
 })
 
 export let {changeName} = user.actions
+export let {changeCount,addItem} = cart.actions
 
 
 
